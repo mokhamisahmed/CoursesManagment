@@ -1,0 +1,158 @@
+﻿@model List<IdentityItI.Models.Lesson>
+
+
+
+     <!--? slider Area Start-->
+        <section class="slider-area slider-area2">
+            <div class="slider-active">
+                <!-- Single Slider -->
+                <div class="single-slider slider-height2">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-8 col-lg-11 col-md-12">
+                                <div class="hero__caption hero__caption2">
+                                    <h1 data-animation="bounceIn" data-delay="0.2s">Courses</h1>
+                                    <!-- breadcrumb Start-->
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                            <li class="breadcrumb-item"><a href="#">Services</a></li> 
+                                        </ol>
+                                    </nav>
+                                    <!-- breadcrumb End -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>          
+                </div>
+            </div>
+        </section>
+@if (Model.Count != 0)
+{
+    <!-- Video Section -->
+    <section class="container">
+        <div class="row justify-content-center video-container">
+            <div class="col-md-8">
+                <h2 class="text-center mb-4">Course Video</h2>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="@Model[0].LessonVideo" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+                <h3 class="text-center mb-3">Lessons</h3>
+                <div class="list-group">
+
+                    @foreach (var lesson in Model)
+                    {
+
+                        <a href="#" data-id="@lesson.LessonVideo" class="list-group-item list-group-item-action video mb-2">@lesson.Title</a>
+                   
+                          <button type="button" class="btn btn-primary btn-sm display-btn" data-toggle="modal" data-target="#displayModal"  data-id="@lesson.Id">
+                                    Display Sheet
+                                </button>                        
+                    
+                    }
+
+
+                    <!-- أضف المزيد من الدروس هنا -->
+            </div>
+            </div>
+        </div>
+
+
+    </section>
+}
+else
+{
+<table align="center" border="1" cellpadding="10">
+    <tr>
+      <td>
+        There is no Lessons for this course
+      </td>
+    </tr>
+  </table>    
+
+    
+}
+
+<!-- DisplayModal -->
+<div class="modal fade" id="displayModal" tabindex="-1" role="dialog" aria-labelledby="displayModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="displayModalLabel">Sheets</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+                <h3 class="text-center mb-3">Sheets</h3>
+                <div class="list-group-modal" id="list-modal">
+                  
+                    <!-- أضف المزيد من الدروس هنا -->
+            </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+  
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- تضمين jQuery -->
+
+<script>
+  $(document).ready(function() {
+    $('.video').click(function(event) {
+        // منع سلوك الافتراضي للرابط
+        event.preventDefault();
+        // احصل على الرابط المرتبط بالفيديو من السمة data-video
+        var videoSource = $(this).data('id');
+        console.log(videoSource);
+        // تحديث مصدر الفيديو مع الرابط الجديد
+        $('.embed-responsive-item').attr('src', videoSource);
+    });
+
+    $('.display-btn').click(function() {
+        var id = $(this).data('id');
+        var obj = { Id: id };
+        $.ajax({
+            type: "GET",
+            url: "/Registration/GetSheets",
+            data: obj,
+            success: function(obj) {
+
+                    var listGroup = $(".list-group-modal");
+
+    // حذف جميع العناصر الحالية داخل العنصر list-group
+    listGroup.empty();
+
+                var jsonObj = JSON.parse(obj);
+                for (var i = 0; i < jsonObj.length; i++) {
+                    var item = jsonObj[i];
+                    $(".list-group-modal").append(
+                        '<a target="_blank" href="' + item.Path + '" class="list-group-item list-group-item-action">' + item.Name + '</a>'
+                    );
+                }
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+});
+
+
+</script>

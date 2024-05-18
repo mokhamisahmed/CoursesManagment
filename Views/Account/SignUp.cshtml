@@ -1,0 +1,191 @@
+﻿@model IdentityItI.ViewModel.UserRoles
+
+
+
+
+     <!--? slider Area Start-->
+        <section class="slider-area slider-area2">
+            <div class="slider-active">
+                <!-- Single Slider -->
+                <div class="single-slider slider-height2">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-8 col-lg-11 col-md-12">
+                                <div class="hero__caption hero__caption2">
+                                    <h1 data-animation="bounceIn" data-delay="0.2s">Courses</h1>
+                                    <!-- breadcrumb Start-->
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                            <li class="breadcrumb-item"><a href="#">Services</a></li> 
+                                        </ol>
+                                    </nav>
+                                    <!-- breadcrumb End -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>          
+                </div>
+            </div>
+        </section>
+
+<!-- Button trigger modal -->
+<div class="text-center mt-4"> <!-- Center align the button and add some top margin -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+        Add User
+    </button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form inside modal -->
+   
+        
+<form  id="RoleForm" asp-action="SignUp">
+    <div class="form-group">
+        <label for="username">UserName</label>
+        <input type="text"  name="UserName"  class="form-control form-control-lg" id="username" placeholder="Enter UserName">
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" name="Email"  class="form-control form-control-lg" id="email" placeholder="Enter Email">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="Password"  class="form-control form-control-lg " id="password">
+    </div>
+                   
+      <select class="form-control " id="role" name="roleId">
+            <option value="">Select Role</option>
+             @foreach(var role in Model.Roles){
+             
+                 <option value="@role.Id">@role.Name</option>
+             }         
+        </select>
+
+         
+  <button type="submit" class="btn btn-primary" >Submit</button>
+</form>
+
+
+      </div>
+      <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+   
+</div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="container">
+  <h2>Course Data</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>UserName</th>
+        <th>Email</th>
+         <th>RoleName</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+
+            @if (Model.userRoles!=null)
+            {
+
+
+               @foreach (var user in Model.userRoles)
+                {
+
+
+                    <tr>
+                        <td>@user.UserName</td>
+                        <td>@user.Email</td>
+                       <td>@user.RoleName</td>
+                       
+                     
+                        <td>
+                          <a href="/edit" class="btn btn-primary btn-sm">Edit</a>
+                         <a href="/delete" class="btn btn-danger btn-sm">Delete</a>
+                      
+
+                        </td>
+                    </tr>
+              }
+            }
+           
+    </tbody>
+  </table>
+</div>
+
+<script>
+$(document).ready(
+
+
+    
+function(){
+
+    $("#submit").click(
+    function(){
+
+      
+        console.log("clicked");
+         var name = $("#Name").val();
+        var description = $("#Description").val();
+       // var image = $("#Image").val();
+         var file = $("#Image")[0].files[0]
+        var category = $("#Category").val();
+
+        // Create an object to hold the form data
+        var formData = {
+            Name: name,
+            Description: description,
+            file: file,
+            categoryId: category
+        };
+        console.log(formData.file)
+    
+
+
+
+    }
+    
+    );
+
+
+
+
+}
+
+
+
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+

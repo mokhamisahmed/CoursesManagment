@@ -1,0 +1,254 @@
+﻿@model IdentityItI.ViewModel.LessonSheet
+
+
+     <!--? slider Area Start-->
+        <section class="slider-area slider-area2">
+            <div class="slider-active">
+                <!-- Single Slider -->
+                <div class="single-slider slider-height2">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-8 col-lg-11 col-md-12">
+                                <div class="hero__caption hero__caption2">
+                                    <h1 data-animation="bounceIn" data-delay="0.2s">Add Sheets for Lesson @Model.lesson.Title </h1>
+                                    <!-- breadcrumb Start-->
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                            <li class="breadcrumb-item"><a href="#">Services</a></li> 
+                                        </ol>
+                                    </nav>
+                                    <!-- breadcrumb End -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>          
+                </div>
+            </div>
+        </section>
+
+<!-- Button trigger modal -->
+<div class="text-center mt-4"> <!-- Center align the button and add some top margin -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+        Add Sheet
+    </button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form inside modal -->
+   
+        
+<form enctype="multipart/form-data" id="courseForm" asp-action="AddSheet">
+    <div class="form-group">
+        <label for="Name">Title</label>
+        <input type="text"  name="Name"  class="form-control form-control-lg" id="Name" placeholder="Enter course name">
+    </div>
+   
+    <div class="form-group">
+        <label for="examplesheet">SheetLink</label>
+        <input type="text" name="Path"  class="form-control form-control-lg " id="examplesheet"  placeholder="Enter Path">
+    </div>
+    @if(Model.lesson.Id!=null){
+        <input type="hidden" value="@Model.lesson.Id" name="lessonId" /> 
+    }
+    
+
+         
+  <button type="submit" class="btn btn-primary" >Submit</button>
+</form>
+
+
+      </div>
+      <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+   
+</div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="container">
+  <h2>Sheet Data</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+
+            @if (Model.sheets!=null)
+            {
+
+
+               @foreach (var sheet in Model.sheets)
+                {
+
+
+                    <tr>
+                        <td>@sheet.Id</td>
+                        <td>@sheet.Name</td>
+                       
+                       
+                       
+                        <td>
+                                     <button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editModal" data-id="@sheet.Id" data-name="@sheet.Name" data-path="@sheet.Path" data-lesson="@sheet.lessonId">
+                                    Edit
+                                </button>
+                        <button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target="#deleteModal" data-id="@sheet.Id " data-deletelesson="@sheet.lessonId" >
+                                    Delete
+                                </button>
+                                 <a href="@sheet.Path" target="_blank" class="btn btn-primary btn-sm"> Display Sheet</a>
+
+                        </td>
+                    </tr>
+              }
+            }
+           
+    </tbody>
+  </table>
+</div>
+
+
+<!-- EditModal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit  </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" asp-action="EditSheetLesson"   enctype="multipart/form-data">
+          <input type="hidden" id="sheetId" name="Id">
+           <input type="hidden" id="lesson" name="lessonId">
+          <div class="form-group">
+            <label for="sheetName"> Sheet Name</label>
+            <input type="text" class="form-control" id="sheetName" name="Name">
+          </div>
+           
+          <div class="form-group">
+            <label for="sheetLink"> Sheet Link</label>
+            <input type="text" class="form-control" id="sheetPath" name="Path">
+          </div>
+         
+
+          
+
+                <button type="submit" class="btn btn-primary">Edit</button>
+          <!-- Add more form fields as needed -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+  
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- DeleteModal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Edit Course</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="DeleteForm" asp-action="Delete"   enctype="multipart/form-data">
+          <input type="hidden" id="deletesheetId" name="Id">
+          <input type="hidden" id="deletelessonId" name="lessonId">
+          <div class="alert  alert-danger">
+            Do you want to delete this Sheet
+          </div>
+         
+
+          
+
+                <button type="submit" class="btn btn-primary">Yes</button>
+          <!-- Add more form fields as needed -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+  
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<script>
+
+
+ 
+$(document).ready(function() {
+  $('.edit-btn').click(function() {
+    var sheetId = $(this).data('id');
+    var sheetName = $(this).data('name');
+      var sheetPath = $(this).data('path');
+           var lessonId=$(this).data('lesson');
+
+  
+
+
+    $('#sheetId').val(sheetId);
+
+    $("#lesson").val(lessonId);
+
+    $('#sheetName').val(sheetName);
+
+   $('#sheetPath').val(sheetPath);
+    
+  });
+
+   $('.delete-btn').click(function() {
+   var sheetId = $(this).data('id');
+   var lessonId=$(this).data('deletelesson');
+    $('#deletesheetId').val(sheetId);
+    $("#deletelessonId").val(lessonId);
+    // Set other fields as needed
+  });
+
+
+
+    // Set other fields as needed
+  });
+
+
+
+ 
+
+    
+
+
+</script>
+
+
+

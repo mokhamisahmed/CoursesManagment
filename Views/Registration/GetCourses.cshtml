@@ -1,0 +1,107 @@
+﻿  @using System.Security.Claims;
+       @model List<IdentityItI.ViewModel.test>
+
+ <!--? slider Area Start-->
+        <section class="slider-area slider-area2">
+            <div class="slider-active">
+                <!-- Single Slider -->
+                <div class="single-slider slider-height2">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-8 col-lg-11 col-md-12">
+                                <div class="hero__caption hero__caption2">
+                                    <h1 data-animation="bounceIn" data-delay="0.2s">Our Courses for @Model[0].category.Name </h1>
+                                    <!-- breadcrumb Start-->
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                            <li class="breadcrumb-item"><a href="#">Services</a></li> 
+                                        </ol>
+                                    </nav>
+                                    <!-- breadcrumb End -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>          
+                </div>
+            </div>
+        </section> 
+
+<!-- Courses area start -->
+        <div class="courses-area section-padding40 fix">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-7 col-lg-8">
+                        <div class="section-tittle text-center mb-55">
+                            <h2>Our featured courses</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @if(Model[0].isvalid){
+                   
+                  @foreach(var test in Model){
+                      <div class="col-lg-4">
+                        <div class="properties properties2 mb-30">
+                            <div class="properties__card">
+                                <div class="properties__img overlay1">
+                                    <a href="#"><img src="@Url.Content(@test.course.Image)" alt=""></a>
+                                </div>
+                                <div class="properties__caption">
+                                    <p>@test.course.Name</p>
+                                    <h3><a href="#">@test.course.Description</a></h3>
+                                   
+                                     <!--id cookieهنجيبه من ال-->
+
+                                       <form asp-action="CourseRegistration" asp-controller="Registration" method="post">
+
+                                           <input type="hidden" value="@test.course.Id" name="courseId">
+                                           <input type="hidden" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" name="userId">
+  <!-- إذا كانت لديك بيانات أخرى تحتاج إلى إرسالها، يمكنك وضعها هنا -->
+  <button type="submit" name="courseName" id="enroll" class="border-btn border-btn2" data-name="@test.course.Name">Enroll</button>
+</form>                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                  }
+                  }else{
+                  <div class="alert alert-info">
+                      there is no courses to enrolled
+
+                  </div>
+                  
+                  }
+                  
+                  
+                   
+                <div class="row justify-content-center">
+
+
+
+
+                    <div class="col-xl-7 col-lg-8">
+                        <div class="section-tittle text-center mt-40">
+                            <a href="#" class="border-btn">Load More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+             <script>
+ $(document).ready(function() {
+        $("#enroll").click(function(event) {
+            var courseName = $(this).data('name');
+            var confirmation = window.confirm("هل ترغب في التسجيل في " + courseName + "؟");
+            
+            if (!confirmation) {
+                event.preventDefault();
+                // منع السلوك الافتراضي للوصلة
+            }
+        });
+    });
+</script>

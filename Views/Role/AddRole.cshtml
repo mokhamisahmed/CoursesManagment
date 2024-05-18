@@ -1,0 +1,173 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model List<IdentityRole>
+
+     <!--? slider Area Start-->
+        <section class="slider-area slider-area2">
+            <div class="slider-active">
+                <!-- Single Slider -->
+                <div class="single-slider slider-height2">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-8 col-lg-11 col-md-12">
+                                <div class="hero__caption hero__caption2">
+                                    <h1 data-animation="bounceIn" data-delay="0.2s">Roles</h1>
+                                    <!-- breadcrumb Start-->
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                            <li class="breadcrumb-item"><a href="#">Services</a></li> 
+                                        </ol>
+                                    </nav>
+                                    <!-- breadcrumb End -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>          
+                </div>
+            </div>
+        </section>
+
+<!-- Button trigger modal -->
+<div class="text-center mt-4"> <!-- Center align the button and add some top margin -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+        Add Role
+    </button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form inside modal -->
+   
+        
+<form enctype="multipart/form-data" id="RoleForm" asp-action="AddRole">
+    <div class="form-group">
+        <label for="Name">RoleName</label>
+        <input type="text"  name="Name"  class="form-control form-control-lg" id="Name" placeholder="Enter RoleName">
+    </div>
+    
+    
+      
+
+         
+  <button type="submit" class="btn btn-primary" >Submit</button>
+</form>
+
+
+      </div>
+      <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+   
+</div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="container">
+  <h2>Course Data</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+       
+        <th>RoleName</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+
+            @if (Model!=null)
+            {
+
+
+               @foreach (var Role in Model)
+                {
+
+
+                    <tr>
+                       
+                        <td>@Role.Name</td>
+                     
+                     
+                        <td>
+                          <a href="/edit" class="btn btn-primary btn-sm">Edit</a>
+                         <a href="/delete" class="btn btn-danger btn-sm">Delete</a>
+
+                        </td>
+                    </tr>
+              }
+            }
+           
+    </tbody>
+  </table>
+</div>
+
+<script>
+$(document).ready(
+
+
+    
+function(){
+
+    $("#submit").click(
+    function(){
+
+      
+        console.log("clicked");
+         var name = $("#Name").val();
+        var description = $("#Description").val();
+       // var image = $("#Image").val();
+         var file = $("#Image")[0].files[0]
+        var category = $("#Category").val();
+
+        // Create an object to hold the form data
+        var formData = {
+            Name: name,
+            Description: description,
+            file: file,
+            categoryId: category
+        };
+        console.log(formData.file)
+    
+
+
+
+    }
+    
+    );
+
+
+
+
+}
+
+
+
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
